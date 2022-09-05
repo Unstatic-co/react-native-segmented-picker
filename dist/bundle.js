@@ -974,11 +974,6 @@ class SegmentedPicker extends Component {
     return (
       /*#__PURE__*/
       React.createElement(View, {
-        style: styles.modalContainer,
-        testID: TEST_IDS.PICKER
-      },
-      /*#__PURE__*/
-      React.createElement(View, {
         style: [styles.pickerContainer, {
           height: `${size * 100}%`,
           backgroundColor
@@ -1074,7 +1069,7 @@ class SegmentedPicker extends Component {
           android: undefined
         }),
         testID: `${columnTestID}`
-      })))))))))
+      }))))))))
     );
   }
 
