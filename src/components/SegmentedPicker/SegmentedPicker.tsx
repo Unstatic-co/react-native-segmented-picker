@@ -634,6 +634,27 @@ export default class SegmentedPicker extends Component<Props, State> {
 
     return (
       <View style={styles.selectableArea}>
+        {/* Native iOS Picker is enabled */}
+        {this.isNative() && (
+          <View style={styles.nativePickerContainer}>
+            <UIPicker
+              ref={this.uiPickerManager.reactRef}
+              nativeTestID={nativeTestID}
+              style={styles.nativePicker}
+              options={SegmentedPicker.ApplyPickerOptionDefaults(options)}
+              defaultSelections={defaultSelections}
+              onValueChange={this.uiPickerValueChange}
+              onEmitSelections={this.uiPickerManager.ingestSelections}
+              theme={{
+                itemHeight: ITEM_HEIGHT,
+                selectionBackgroundColor,
+                selectionBorderColor,
+                pickerItemTextColor,
+              }}
+            />
+          </View>
+        )}
+
         {/* Plain JavaScript implementation (default) */}
         {!this.isNative() && (
           <>
