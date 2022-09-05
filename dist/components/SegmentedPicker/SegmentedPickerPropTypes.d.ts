@@ -20,6 +20,7 @@ export declare const defaultProps: {
     textConfirmStyle: {};
     textCancelStyle: {};
     textTitleStyle: {};
+    toolbarContainerStyle: {};
     cancelText: string;
     title: string;
 };
@@ -54,6 +55,7 @@ export declare const propTypes: {
     textTitleStyle: PropTypes.Requireable<object>;
     cancelText: PropTypes.Requireable<string>;
     title: PropTypes.Requireable<string>;
+    toolbarContainerStyle: PropTypes.Requireable<object>;
     onValueChange: PropTypes.Requireable<(...args: any[]) => any>;
     onCancel: PropTypes.Requireable<(...args: any[]) => any>;
     onConfirm: PropTypes.Requireable<(...args: any[]) => any>;

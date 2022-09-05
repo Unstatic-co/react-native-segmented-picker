@@ -1,5 +1,11 @@
 import React, { ReactElement } from 'react';
-import { View, TouchableOpacity, Text, TextStyle } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  TextStyle,
+  ViewStyle,
+} from 'react-native';
 import styles from './ToolbarStyles';
 import { TEST_IDS } from '../../config/constants';
 
@@ -12,6 +18,7 @@ interface Props {
   textConfirmStyle?: TextStyle;
   textCancelStyle?: TextStyle;
   textTitleStyle?: TextStyle;
+  toolbarContainerStyle?: ViewStyle;
   title?: string;
   onConfirm: () => void;
   onCancel: () => void;
@@ -30,6 +37,7 @@ export default ({
   textConfirmStyle,
   textTitleStyle,
   title,
+  toolbarContainerStyle,
   onConfirm,
   onCancel,
 }: Props): ReactElement => (
@@ -40,6 +48,7 @@ export default ({
         backgroundColor: toolbarBackground,
         borderBottomColor: toolbarBorderColor,
       },
+      toolbarContainerStyle,
     ]}>
     <TouchableOpacity
       activeOpacity={0.4}

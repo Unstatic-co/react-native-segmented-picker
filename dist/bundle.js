@@ -24,6 +24,7 @@ const defaultProps = {
   textConfirmStyle: {},
   textCancelStyle: {},
   textTitleStyle: {},
+  toolbarContainerStyle: {},
   cancelText: '',
   title: ''
 };
@@ -65,6 +66,7 @@ const propTypes = {
   textTitleStyle: PropTypes.object,
   cancelText: PropTypes.string,
   title: PropTypes.string,
+  toolbarContainerStyle: PropTypes.object,
   // Events
   onValueChange: PropTypes.func,
   onCancel: PropTypes.func,
@@ -177,7 +179,7 @@ var styles$1 = StyleSheet.create({
     height: 42,
     borderBottomWidth: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'center',
     alignSelf: 'flex-start'
   },
@@ -210,6 +212,7 @@ var Toolbar = (({
   textConfirmStyle,
   textTitleStyle,
   title,
+  toolbarContainerStyle,
   onConfirm,
   onCancel
 }) =>
@@ -218,7 +221,7 @@ React.createElement(View, {
   style: [styles$1.toolbarContainer, {
     backgroundColor: toolbarBackground,
     borderBottomColor: toolbarBorderColor
-  }]
+  }, toolbarContainerStyle]
 },
 /*#__PURE__*/
 React.createElement(TouchableOpacity, {

@@ -21,6 +21,7 @@ export const defaultProps = {
   textConfirmStyle: {},
   textCancelStyle: {},
   textTitleStyle: {},
+  toolbarContainerStyle: {},
   cancelText: '',
   title: '',
 };
@@ -80,6 +81,7 @@ export const propTypes = {
   textTitleStyle: PropTypes.object,
   cancelText: PropTypes.string,
   title: PropTypes.string,
+  toolbarContainerStyle: PropTypes.object,
   // Events
   onValueChange: PropTypes.func,
   onCancel: PropTypes.func,
