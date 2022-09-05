@@ -11,7 +11,7 @@
     "lint": "eslint ./ && tsc --project ./tsconfig.json --noEmit --skipLibCheck",
     "unit-test": "jest --testPathIgnorePatterns __tests__/",
     "test": "yarn lint && yarn unit-test",
-    "build": "rm -rf dist && rollup --config rollup.config.js",
+    "build": "rm -rf dist && npx rollup --config rollup.config.js",
     "e2e-android": "cd examples && yarn install && yarn e2e-android-debug-init && yarn e2e-android-debug --take-screenshots all --record-logs all",
     "e2e-ios": "cd examples && yarn install && cd ios && pod install && cd ../ && yarn e2e-ios-debug-init && yarn e2e-ios-debug --take-screenshots all --record-logs all"
   },
@@ -73,8 +73,9 @@
     "react-native": "0.61.5",
     "react-test-renderer": "16.9.0",
     "rollup": "^2.10.2",
-    "rollup-plugin-typescript2": "^0.27.1",
-    "typescript": "3.7.3"
+    "rollup-plugin-typescript2": "^0.33.0",
+    "tslib": "^2.4.0",
+    "typescript": "^4.8.2"
   },
   "jest": {
     "preset": "react-native",
