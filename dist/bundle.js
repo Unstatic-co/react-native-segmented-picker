@@ -1070,7 +1070,8 @@ class SegmentedPicker extends Component {
       textCancelStyle,
       textTitleStyle,
       cancelText,
-      title
+      title,
+      toolbarContainerStyle
     } = this.props;
     return (
       /*#__PURE__*/
@@ -1136,6 +1137,7 @@ class SegmentedPicker extends Component {
         textConfirmStyle: textConfirmStyle,
         textCancelStyle: textCancelStyle,
         textTitleStyle: textTitleStyle,
+        toolbarContainerStyle: toolbarContainerStyle,
         onConfirm: this.onConfirm,
         onCancel: this.onCancel,
         title: title
