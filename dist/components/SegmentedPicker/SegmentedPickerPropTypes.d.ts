@@ -17,6 +17,11 @@ export declare const defaultProps: {
     onValueChange: () => void;
     onCancel: () => void;
     onConfirm: () => void;
+    textConfirmStyle: {};
+    textCancelStyle: {};
+    textTitleStyle: {};
+    cancelText: string;
+    title: string;
 };
 export declare const propTypes: {
     options: PropTypes.Validator<(PropTypes.InferProps<{
@@ -44,6 +49,11 @@ export declare const propTypes: {
     selectionBackgroundColor: PropTypes.Requireable<string>;
     selectionBorderColor: PropTypes.Requireable<string>;
     backgroundColor: PropTypes.Requireable<string>;
+    textConfirmStyle: PropTypes.Requireable<object>;
+    textCancelStyle: PropTypes.Requireable<object>;
+    textTitleStyle: PropTypes.Requireable<object>;
+    cancelText: PropTypes.Requireable<string>;
+    title: PropTypes.Requireable<string>;
     onValueChange: PropTypes.Requireable<(...args: any[]) => any>;
     onCancel: PropTypes.Requireable<(...args: any[]) => any>;
     onConfirm: PropTypes.Requireable<(...args: any[]) => any>;

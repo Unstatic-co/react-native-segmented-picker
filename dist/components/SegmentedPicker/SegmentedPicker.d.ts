@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { TextStyle } from 'react-native';
 import Cache from '../../services/Cache';
 import UIPickerManager from '../../services/UIPickerManager';
 import { PickerOptions, Selections, SelectionEvent } from '../../config/interfaces';
@@ -17,6 +18,11 @@ export interface Props {
     selectionBackgroundColor: string;
     selectionBorderColor: string;
     backgroundColor: string;
+    textConfirmStyle: TextStyle;
+    textCancelStyle: TextStyle;
+    textTitleStyle: TextStyle;
+    cancelText: string;
+    title: string;
     onValueChange: (event: SelectionEvent) => void;
     onCancel: (event: Selections) => void;
     onConfirm: (event: Selections) => void;
@@ -52,6 +58,11 @@ export default class SegmentedPicker extends Component<Props, State> {
         selectionBackgroundColor: import("prop-types").Requireable<string>;
         selectionBorderColor: import("prop-types").Requireable<string>;
         backgroundColor: import("prop-types").Requireable<string>;
+        textConfirmStyle: import("prop-types").Requireable<object>;
+        textCancelStyle: import("prop-types").Requireable<object>;
+        textTitleStyle: import("prop-types").Requireable<object>;
+        cancelText: import("prop-types").Requireable<string>;
+        title: import("prop-types").Requireable<string>;
         onValueChange: import("prop-types").Requireable<(...args: any[]) => any>;
         onCancel: import("prop-types").Requireable<(...args: any[]) => any>;
         onConfirm: import("prop-types").Requireable<(...args: any[]) => any>;

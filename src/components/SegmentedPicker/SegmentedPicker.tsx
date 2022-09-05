@@ -9,6 +9,7 @@ import {
   Text,
   NativeSyntheticEvent,
   NativeScrollEvent,
+  TextStyle,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { defaultProps, propTypes } from './SegmentedPickerPropTypes';
@@ -61,6 +62,11 @@ export interface Props {
   selectionBackgroundColor: string;
   selectionBorderColor: string;
   backgroundColor: string;
+  textConfirmStyle: TextStyle;
+  textCancelStyle: TextStyle;
+  textTitleStyle: TextStyle;
+  cancelText: string;
+  title: string;
   // Events
   onValueChange: (event: SelectionEvent) => void;
   onCancel: (event: Selections) => void;
@@ -630,105 +636,162 @@ export default class SegmentedPicker extends Component<Props, State> {
       selectionBackgroundColor,
       selectionBorderColor,
       backgroundColor,
+      textConfirmStyle,
+      textCancelStyle,
+      textTitleStyle,
+      cancelText,
+      title,
     } = this.props;
 
     return (
-      <View
-        style={[
-          styles.pickerContainer,
-          { height: `${size * 100}%`, backgroundColor },
-        ]}>
-        <View style={styles.selectableArea}>
-          {/* Native iOS Picker is enabled */}
-          {this.isNative() && (
-            <View style={styles.nativePickerContainer}>
-              <UIPicker
-                ref={this.uiPickerManager.reactRef}
-                nativeTestID={nativeTestID}
-                style={styles.nativePicker}
-                options={SegmentedPicker.ApplyPickerOptionDefaults(options)}
-                defaultSelections={defaultSelections}
-                onValueChange={this.uiPickerValueChange}
-                onEmitSelections={this.uiPickerManager.ingestSelections}
-                theme={{
-                  itemHeight: ITEM_HEIGHT,
-                  selectionBackgroundColor,
-                  selectionBorderColor,
-                  pickerItemTextColor,
-                }}
-              />
-            </View>
-          )}
+      <Modal
+        visible={visible}
+        animationType={Platform.select({
+          ios: 'fade',
+          default: 'none',
+        })}
+        transparent
+        onRequestClose={this.onCancel}>
+        <Animatable.View
+          useNativeDriver
+          animation="fadeIn"
+          easing="ease-out-cubic"
+          duration={ANIMATION_TIME}
+          ref={this.modalContainerRef}
+          style={styles.modalContainer}
+          testID={TEST_IDS.PICKER}>
+          <TouchableWithoutFeedback
+            onPress={this.onCancel}
+            testID={TEST_IDS.CLOSE_AREA}>
+            <View
+              style={[
+                styles.closeableContainer,
+                { height: `${100 - size * 100}%` },
+              ]}
+            />
+          </TouchableWithoutFeedback>
 
-          {/* Plain JavaScript implementation (default) */}
-          {!this.isNative() && (
-            <>
-              <SelectionMarker
-                backgroundColor={selectionBackgroundColor}
-                borderColor={selectionBorderColor}
-              />
-              <View
-                style={styles.pickerColumns}
-                onLayout={this.measurePickersHeight}>
-                {SegmentedPicker.ApplyPickerOptionDefaults(options).map(
-                  ({ key: column, testID: columnTestID, flex }) => (
-                    <View
-                      style={[styles.pickerColumn, { flex }]}
-                      key={`${column}`}>
-                      <View style={styles.pickerList}>
-                        <FlatList
-                          data={this.columnItems(column).map(
-                            ({ label, value, key, testID }) => ({
-                              label,
-                              value,
-                              column,
-                              testID,
-                              key: `${column}_${key || label}`,
-                            }),
-                          )}
-                          renderItem={this.renderPickerItem}
-                          keyExtractor={(item) => item.key}
-                          initialNumToRender={40}
-                          getItemLayout={(data, index) => ({
-                            length: ITEM_HEIGHT,
-                            offset: ITEM_HEIGHT * index,
-                            index,
-                          })}
-                          contentContainerStyle={{
-                            paddingTop: this.pickersVerticalPadding(),
-                            paddingBottom: this.pickersVerticalPadding(),
-                          }}
-                          showsVerticalScrollIndicator={false}
-                          ref={(ref) => this.setFlatListRef(column, ref)}
-                          onScroll={(event) => this.onScroll(event, column)}
-                          onScrollBeginDrag={() =>
-                            this.onScrollBeginDrag(column)
-                          }
-                          onScrollEndDrag={(event) =>
-                            this.onScrollEndDrag(event, column)
-                          }
-                          onMomentumScrollBegin={(event) =>
-                            this.onMomentumScrollBegin(event, column)
-                          }
-                          onMomentumScrollEnd={(event) =>
-                            this.onMomentumScrollEnd(event, column)
-                          }
-                          scrollEventThrottle={32}
-                          decelerationRate={Platform.select({
-                            ios: 1,
-                            android: undefined,
-                          })}
-                          testID={`${columnTestID}`}
-                        />
-                      </View>
-                    </View>
-                  ),
-                )}
-              </View>
-            </>
-          )}
-        </View>
-      </View>
+          <Animatable.View
+            useNativeDriver
+            animation={{
+              from: { opacity: 0, translateY: 250 },
+              to: { opacity: 1, translateY: 0 },
+            }}
+            easing="ease-out-quint"
+            delay={100}
+            duration={ANIMATION_TIME}
+            ref={this.pickerContainerRef}
+            style={[
+              styles.pickerContainer,
+              { height: `${size * 100}%`, backgroundColor },
+            ]}>
+            <Toolbar
+              confirmText={confirmText}
+              cancelText={cancelText}
+              confirmTextColor={confirmTextColor}
+              toolbarBackground={toolbarBackgroundColor}
+              toolbarBorderColor={toolbarBorderColor}
+              textConfirmStyle={textConfirmStyle}
+              textCancelStyle={textCancelStyle}
+              textTitleStyle={textTitleStyle}
+              onConfirm={this.onConfirm}
+              onCancel={this.onCancel}
+              title={title}
+            />
+
+            <View style={styles.selectableArea}>
+              {/* Native iOS Picker is enabled */}
+              {this.isNative() && (
+                <View style={styles.nativePickerContainer}>
+                  <UIPicker
+                    ref={this.uiPickerManager.reactRef}
+                    nativeTestID={nativeTestID}
+                    style={styles.nativePicker}
+                    options={SegmentedPicker.ApplyPickerOptionDefaults(options)}
+                    defaultSelections={defaultSelections}
+                    onValueChange={this.uiPickerValueChange}
+                    onEmitSelections={this.uiPickerManager.ingestSelections}
+                    theme={{
+                      itemHeight: ITEM_HEIGHT,
+                      selectionBackgroundColor,
+                      selectionBorderColor,
+                      pickerItemTextColor,
+                    }}
+                  />
+                </View>
+              )}
+
+              {/* Plain JavaScript implementation (default) */}
+              {!this.isNative() && (
+                <>
+                  <SelectionMarker
+                    backgroundColor={selectionBackgroundColor}
+                    borderColor={selectionBorderColor}
+                  />
+                  <View
+                    style={styles.pickerColumns}
+                    onLayout={this.measurePickersHeight}>
+                    {SegmentedPicker.ApplyPickerOptionDefaults(options).map(
+                      ({ key: column, testID: columnTestID, flex }) => (
+                        <View
+                          style={[styles.pickerColumn, { flex }]}
+                          key={`${column}`}>
+                          <View style={styles.pickerList}>
+                            <FlatList
+                              data={this.columnItems(column).map(
+                                ({ label, value, key, testID }) => ({
+                                  label,
+                                  value,
+                                  column,
+                                  testID,
+                                  key: `${column}_${key || label}`,
+                                }),
+                              )}
+                              renderItem={this.renderPickerItem}
+                              keyExtractor={(item) => item.key}
+                              initialNumToRender={40}
+                              getItemLayout={(data, index) => ({
+                                length: ITEM_HEIGHT,
+                                offset: ITEM_HEIGHT * index,
+                                index,
+                              })}
+                              contentContainerStyle={{
+                                paddingTop: this.pickersVerticalPadding(),
+                                paddingBottom: this.pickersVerticalPadding(),
+                              }}
+                              showsVerticalScrollIndicator={false}
+                              ref={(ref) => this.setFlatListRef(column, ref)}
+                              onScroll={(event) => this.onScroll(event, column)}
+                              onScrollBeginDrag={() =>
+                                this.onScrollBeginDrag(column)
+                              }
+                              onScrollEndDrag={(event) =>
+                                this.onScrollEndDrag(event, column)
+                              }
+                              onMomentumScrollBegin={(event) =>
+                                this.onMomentumScrollBegin(event, column)
+                              }
+                              onMomentumScrollEnd={(event) =>
+                                this.onMomentumScrollEnd(event, column)
+                              }
+                              scrollEventThrottle={32}
+                              decelerationRate={Platform.select({
+                                ios: 1,
+                                android: undefined,
+                              })}
+                              testID={`${columnTestID}`}
+                            />
+                          </View>
+                        </View>
+                      ),
+                    )}
+                  </View>
+                </>
+              )}
+            </View>
+          </Animatable.View>
+        </Animatable.View>
+      </Modal>
     );
   }
 }

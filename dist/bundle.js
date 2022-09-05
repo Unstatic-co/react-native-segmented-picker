@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Dimensions, Platform, View, requireNativeComponent, UIManager, findNodeHandle, TouchableOpacity, Text, FlatList } from 'react-native';
+import { StyleSheet, Dimensions, Platform, View, TouchableOpacity, Text, requireNativeComponent, UIManager, findNodeHandle, Modal, TouchableWithoutFeedback, FlatList } from 'react-native';
+import { View as View$1 } from 'react-native-animatable';
 import PropTypes from 'prop-types';
 
 const defaultProps = {
@@ -19,7 +20,12 @@ const defaultProps = {
   backgroundColor: '#FFFFFF',
   onValueChange: () => {},
   onCancel: () => {},
-  onConfirm: () => {}
+  onConfirm: () => {},
+  textConfirmStyle: {},
+  textCancelStyle: {},
+  textTitleStyle: {},
+  cancelText: '',
+  title: ''
 };
 const propTypes = {
   // Core Props
@@ -37,7 +43,7 @@ const propTypes = {
   visible: PropTypes.bool,
   defaultSelections: PropTypes.objectOf((propValue, key, componentName, location, propName) => {
     const column = propValue[key];
-    return column && String(column) !== column ? new Error(`Invalid prop \`${propName}\` supplied to \`${componentName}\`.` + ' Must be in the format: `{column1: \'value\', column2: \'value\', ...}`') : null;
+    return column && String(column) !== column ? new Error(`Invalid prop \`${propName}\` supplied to \`${componentName}\`.` + " Must be in the format: `{column1: 'value', column2: 'value', ...}`") : null;
   }),
   size: (props, propName, componentName) => {
     const value = props[propName];
@@ -54,6 +60,11 @@ const propTypes = {
   selectionBackgroundColor: PropTypes.string,
   selectionBorderColor: PropTypes.string,
   backgroundColor: PropTypes.string,
+  textConfirmStyle: PropTypes.object,
+  textCancelStyle: PropTypes.object,
+  textTitleStyle: PropTypes.object,
+  cancelText: PropTypes.string,
+  title: PropTypes.string,
   // Events
   onValueChange: PropTypes.func,
   onCancel: PropTypes.func,
@@ -160,8 +171,90 @@ var styles = StyleSheet.create({
   }
 });
 
-const ITEM_HEIGHT$1 = Platform.select(ITEM_HEIGHTS);
 var styles$1 = StyleSheet.create({
+  toolbarContainer: {
+    width: '100%',
+    height: 42,
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    alignSelf: 'flex-start'
+  },
+  toolbarConfirmContainer: {
+    height: '100%',
+    paddingLeft: 30,
+    justifyContent: 'center'
+  },
+  toolbarConfirmText: {
+    fontWeight: 'bold',
+    fontSize: 15,
+    paddingTop: 0,
+    paddingRight: GUTTER_WIDTH,
+    paddingBottom: TEXT_CORRECTION,
+    paddingLeft: 0
+  }
+});
+
+/**
+ * Top action bar that displays above the picker modal which allows a user to confirm
+ * their selections and close the modal.
+ */
+
+var Toolbar = (({
+  confirmText,
+  cancelText,
+  toolbarBackground,
+  toolbarBorderColor,
+  textCancelStyle,
+  textConfirmStyle,
+  textTitleStyle,
+  title,
+  onConfirm,
+  onCancel
+}) =>
+/*#__PURE__*/
+React.createElement(View, {
+  style: [styles$1.toolbarContainer, {
+    backgroundColor: toolbarBackground,
+    borderBottomColor: toolbarBorderColor
+  }]
+},
+/*#__PURE__*/
+React.createElement(TouchableOpacity, {
+  activeOpacity: 0.4,
+  onPress: onCancel,
+  testID: TEST_IDS.CONFIRM_BUTTON
+},
+/*#__PURE__*/
+React.createElement(View, {
+  style: styles$1.toolbarConfirmContainer
+},
+/*#__PURE__*/
+React.createElement(Text, {
+  style: [styles$1.toolbarConfirmText, textCancelStyle]
+}, cancelText))), !!title &&
+/*#__PURE__*/
+React.createElement(Text, {
+  style: textTitleStyle
+}, title),
+/*#__PURE__*/
+React.createElement(TouchableOpacity, {
+  activeOpacity: 0.4,
+  onPress: onConfirm,
+  testID: TEST_IDS.CONFIRM_BUTTON
+},
+/*#__PURE__*/
+React.createElement(View, {
+  style: styles$1.toolbarConfirmContainer
+},
+/*#__PURE__*/
+React.createElement(Text, {
+  style: [styles$1.toolbarConfirmText, textConfirmStyle]
+}, confirmText)))));
+
+const ITEM_HEIGHT$1 = Platform.select(ITEM_HEIGHTS);
+var styles$2 = StyleSheet.create({
   selectionMarkerContainer: {
     width: '100%',
     height: '100%',
@@ -198,23 +291,23 @@ var SelectionMarker = (({
 }) =>
 /*#__PURE__*/
 React.createElement(View, {
-  style: styles$1.selectionMarkerContainer
+  style: styles$2.selectionMarkerContainer
 },
 /*#__PURE__*/
 React.createElement(View, {
-  style: [styles$1.selectionMarkerBorder, {
+  style: [styles$2.selectionMarkerBorder, {
     backgroundColor: borderColor
   }]
 }),
 /*#__PURE__*/
 React.createElement(View, {
-  style: [styles$1.selectionMarker, {
+  style: [styles$2.selectionMarker, {
     backgroundColor
   }]
 }),
 /*#__PURE__*/
 React.createElement(View, {
-  style: [styles$1.selectionMarkerBorder, {
+  style: [styles$2.selectionMarkerBorder, {
     backgroundColor: borderColor
   }]
 })));
@@ -969,16 +1062,81 @@ class SegmentedPicker extends Component {
       toolbarBorderColor,
       selectionBackgroundColor,
       selectionBorderColor,
-      backgroundColor
+      backgroundColor,
+      textConfirmStyle,
+      textCancelStyle,
+      textTitleStyle,
+      cancelText,
+      title
     } = this.props;
     return (
       /*#__PURE__*/
+      React.createElement(Modal, {
+        visible: visible,
+        animationType: Platform.select({
+          ios: 'fade',
+          default: 'none'
+        }),
+        transparent: true,
+        onRequestClose: this.onCancel
+      },
+      /*#__PURE__*/
+      React.createElement(View$1, {
+        useNativeDriver: true,
+        animation: "fadeIn",
+        easing: "ease-out-cubic",
+        duration: ANIMATION_TIME,
+        ref: this.modalContainerRef,
+        style: styles.modalContainer,
+        testID: TEST_IDS.PICKER
+      },
+      /*#__PURE__*/
+      React.createElement(TouchableWithoutFeedback, {
+        onPress: this.onCancel,
+        testID: TEST_IDS.CLOSE_AREA
+      },
+      /*#__PURE__*/
       React.createElement(View, {
+        style: [styles.closeableContainer, {
+          height: `${100 - size * 100}%`
+        }]
+      })),
+      /*#__PURE__*/
+      React.createElement(View$1, {
+        useNativeDriver: true,
+        animation: {
+          from: {
+            opacity: 0,
+            translateY: 250
+          },
+          to: {
+            opacity: 1,
+            translateY: 0
+          }
+        },
+        easing: "ease-out-quint",
+        delay: 100,
+        duration: ANIMATION_TIME,
+        ref: this.pickerContainerRef,
         style: [styles.pickerContainer, {
           height: `${size * 100}%`,
           backgroundColor
         }]
       },
+      /*#__PURE__*/
+      React.createElement(Toolbar, {
+        confirmText: confirmText,
+        cancelText: cancelText,
+        confirmTextColor: confirmTextColor,
+        toolbarBackground: toolbarBackgroundColor,
+        toolbarBorderColor: toolbarBorderColor,
+        textConfirmStyle: textConfirmStyle,
+        textCancelStyle: textCancelStyle,
+        textTitleStyle: textTitleStyle,
+        onConfirm: this.onConfirm,
+        onCancel: this.onCancel,
+        title: title
+      }),
       /*#__PURE__*/
       React.createElement(View, {
         style: styles.selectableArea
@@ -1069,7 +1227,7 @@ class SegmentedPicker extends Component {
           android: undefined
         }),
         testID: `${columnTestID}`
-      }))))))))
+      }))))))))))
     );
   }
 

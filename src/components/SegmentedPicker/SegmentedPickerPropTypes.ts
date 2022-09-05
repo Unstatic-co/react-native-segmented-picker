@@ -18,6 +18,11 @@ export const defaultProps = {
   onValueChange: () => {},
   onCancel: () => {},
   onConfirm: () => {},
+  textConfirmStyle: {},
+  textCancelStyle: {},
+  textTitleStyle: {},
+  cancelText: '',
+  title: '',
 };
 
 export const propTypes = {
@@ -38,31 +43,27 @@ export const propTypes = {
     }),
   ).isRequired,
   visible: PropTypes.bool,
-  defaultSelections: PropTypes.objectOf((
-    propValue,
-    key,
-    componentName,
-    location,
-    propName,
-  ) => {
-    const column = propValue[key];
-    return (column && String(column) !== column) ? (
-      new Error(
-        `Invalid prop \`${propName}\` supplied to \`${componentName}\`.`
-        + ' Must be in the format: `{column1: \'value\', column2: \'value\', ...}`',
-      )
-    ) : null;
-  }),
+  defaultSelections: PropTypes.objectOf(
+    (propValue, key, componentName, location, propName) => {
+      const column = propValue[key];
+      return column && String(column) !== column
+        ? new Error(
+            `Invalid prop \`${propName}\` supplied to \`${componentName}\`.` +
+              " Must be in the format: `{column1: 'value', column2: 'value', ...}`",
+          )
+        : null;
+    },
+  ),
   size: (props: any, propName: 'size', componentName: string) => {
     const value = props[propName];
     if (value === undefined) return null;
-    return (value < 0 || value > 1) ? (
-      new Error(
-        `Invalid prop \`${propName}\` supplied to \`${componentName}\`.`
-        + ' Must be a floating point between 0-1 representing the screen percentage to cover.'
-        + ' The default value is `0.45` (eg 45%).',
-      )
-    ) : null;
+    return value < 0 || value > 1
+      ? new Error(
+          `Invalid prop \`${propName}\` supplied to \`${componentName}\`.` +
+            ' Must be a floating point between 0-1 representing the screen percentage to cover.' +
+            ' The default value is `0.45` (eg 45%).',
+        )
+      : null;
   },
   confirmText: PropTypes.string,
   nativeTestID: PropTypes.string,
@@ -74,6 +75,11 @@ export const propTypes = {
   selectionBackgroundColor: PropTypes.string,
   selectionBorderColor: PropTypes.string,
   backgroundColor: PropTypes.string,
+  textConfirmStyle: PropTypes.object,
+  textCancelStyle: PropTypes.object,
+  textTitleStyle: PropTypes.object,
+  cancelText: PropTypes.string,
+  title: PropTypes.string,
   // Events
   onValueChange: PropTypes.func,
   onCancel: PropTypes.func,
