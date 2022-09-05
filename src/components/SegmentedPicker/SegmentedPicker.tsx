@@ -10,6 +10,7 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
   TextStyle,
+  ViewStyle,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { defaultProps, propTypes } from './SegmentedPickerPropTypes';
@@ -67,6 +68,7 @@ export interface Props {
   textTitleStyle: TextStyle;
   cancelText: string;
   title: string;
+  toolbarContainerStyle: ViewStyle;
   // Events
   onValueChange: (event: SelectionEvent) => void;
   onCancel: (event: Selections) => void;
@@ -641,6 +643,7 @@ export default class SegmentedPicker extends Component<Props, State> {
       textTitleStyle,
       cancelText,
       title,
+      toolbarContainerStyle,
     } = this.props;
 
     return (
@@ -694,6 +697,7 @@ export default class SegmentedPicker extends Component<Props, State> {
               textConfirmStyle={textConfirmStyle}
               textCancelStyle={textCancelStyle}
               textTitleStyle={textTitleStyle}
+              toolbarContainerStyle={toolbarContainerStyle}
               onConfirm={this.onConfirm}
               onCancel={this.onCancel}
               title={title}
