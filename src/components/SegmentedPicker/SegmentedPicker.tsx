@@ -1,4 +1,4 @@
-import React, { Component, ReactElement } from 'react';
+import React, { Component, ReactElement, ReactNode } from 'react';
 import {
   Platform,
   Modal,
@@ -70,7 +70,7 @@ export interface Props {
   title: string;
   toolbarContainerStyle: ViewStyle;
   pickerContainerStyle: ViewStyle;
-  extentionComponent: ReactElement;
+  extentionComponent: ReactNode;
   // Events
   onValueChange: (event: SelectionEvent) => void;
   onCancel: (event: Selections) => void;
@@ -707,7 +707,7 @@ export default class SegmentedPicker extends Component<Props, State> {
               onCancel={this.onCancel}
               title={title}
             />
-
+            {extentionComponent && extentionComponent}
             <View style={styles.selectableArea}>
               {/* Native iOS Picker is enabled */}
               {this.isNative() && (

@@ -69,7 +69,7 @@ const propTypes = {
   title: PropTypes.string,
   toolbarContainerStyle: PropTypes.object,
   pickerContainerStyle: PropTypes.object,
-  extentionComponent: PropTypes.element,
+  extentionComponent: PropTypes.node,
   // Events
   onValueChange: PropTypes.func,
   onCancel: PropTypes.func,
@@ -1145,7 +1145,7 @@ class SegmentedPicker extends Component {
         onConfirm: this.onConfirm,
         onCancel: this.onCancel,
         title: title
-      }),
+      }), extentionComponent && extentionComponent,
       /*#__PURE__*/
       React.createElement(View, {
         style: styles.selectableArea
