@@ -69,6 +69,7 @@ const propTypes = {
   title: PropTypes.string,
   toolbarContainerStyle: PropTypes.object,
   pickerContainerStyle: PropTypes.object,
+  extentionComponent: PropTypes.element,
   // Events
   onValueChange: PropTypes.func,
   onCancel: PropTypes.func,
@@ -187,7 +188,6 @@ var styles$1 = StyleSheet.create({
   },
   toolbarConfirmContainer: {
     height: '100%',
-    paddingLeft: 30,
     justifyContent: 'center'
   },
   toolbarConfirmText: {
@@ -1074,7 +1074,8 @@ class SegmentedPicker extends Component {
       cancelText,
       title,
       toolbarContainerStyle,
-      pickerContainerStyle
+      pickerContainerStyle,
+      extentionComponent
     } = this.props;
     return (
       /*#__PURE__*/
@@ -1235,7 +1236,7 @@ class SegmentedPicker extends Component {
           android: undefined
         }),
         testID: `${columnTestID}`
-      }))))))))))
+      })))))), extentionComponent && extentionComponent))))
     );
   }
 

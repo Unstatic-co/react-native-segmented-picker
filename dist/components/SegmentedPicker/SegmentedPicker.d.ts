@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, ReactElement } from 'react';
 import { TextStyle, ViewStyle } from 'react-native';
 import Cache from '../../services/Cache';
 import UIPickerManager from '../../services/UIPickerManager';
@@ -25,6 +25,7 @@ export interface Props {
     title: string;
     toolbarContainerStyle: ViewStyle;
     pickerContainerStyle: ViewStyle;
+    extentionComponent: ReactElement;
     onValueChange: (event: SelectionEvent) => void;
     onCancel: (event: Selections) => void;
     onConfirm: (event: Selections) => void;
@@ -67,6 +68,7 @@ export default class SegmentedPicker extends Component<Props, State> {
         title: import("prop-types").Requireable<string>;
         toolbarContainerStyle: import("prop-types").Requireable<object>;
         pickerContainerStyle: import("prop-types").Requireable<object>;
+        extentionComponent: import("prop-types").Requireable<import("prop-types").ReactElementLike>;
         onValueChange: import("prop-types").Requireable<(...args: any[]) => any>;
         onCancel: import("prop-types").Requireable<(...args: any[]) => any>;
         onConfirm: import("prop-types").Requireable<(...args: any[]) => any>;

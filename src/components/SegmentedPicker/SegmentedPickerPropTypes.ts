@@ -84,6 +84,7 @@ export const propTypes = {
   title: PropTypes.string,
   toolbarContainerStyle: PropTypes.object,
   pickerContainerStyle: PropTypes.object,
+  extentionComponent: PropTypes.element,
   // Events
   onValueChange: PropTypes.func,
   onCancel: PropTypes.func,

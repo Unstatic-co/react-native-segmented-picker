@@ -70,6 +70,7 @@ export interface Props {
   title: string;
   toolbarContainerStyle: ViewStyle;
   pickerContainerStyle: ViewStyle;
+  extentionComponent: ReactElement;
   // Events
   onValueChange: (event: SelectionEvent) => void;
   onCancel: (event: Selections) => void;
@@ -646,6 +647,7 @@ export default class SegmentedPicker extends Component<Props, State> {
       title,
       toolbarContainerStyle,
       pickerContainerStyle,
+      extentionComponent,
     } = this.props;
 
     return (
@@ -795,6 +797,7 @@ export default class SegmentedPicker extends Component<Props, State> {
                   </View>
                 </>
               )}
+              {extentionComponent && extentionComponent}
             </View>
           </Animatable.View>
         </Animatable.View>

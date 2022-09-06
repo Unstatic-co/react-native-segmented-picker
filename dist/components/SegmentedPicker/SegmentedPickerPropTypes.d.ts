@@ -58,6 +58,7 @@ export declare const propTypes: {
     title: PropTypes.Requireable<string>;
     toolbarContainerStyle: PropTypes.Requireable<object>;
     pickerContainerStyle: PropTypes.Requireable<object>;
+    extentionComponent: PropTypes.Requireable<PropTypes.ReactElementLike>;
     onValueChange: PropTypes.Requireable<(...args: any[]) => any>;
     onCancel: PropTypes.Requireable<(...args: any[]) => any>;
     onConfirm: PropTypes.Requireable<(...args: any[]) => any>;
