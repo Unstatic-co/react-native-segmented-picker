@@ -1169,7 +1169,7 @@ class SegmentedPicker extends Component {
           selectionBorderColor,
           pickerItemTextColor
         }
-      })), !this.isNative() &&
+      }), extentionComponent && extentionComponent), !this.isNative() &&
       /*#__PURE__*/
       React.createElement(React.Fragment, null,
       /*#__PURE__*/
@@ -1236,7 +1236,7 @@ class SegmentedPicker extends Component {
           android: undefined
         }),
         testID: `${columnTestID}`
-      })))))), extentionComponent && extentionComponent))))
+      }))))), extentionComponent && extentionComponent)))))
     );
   }
 

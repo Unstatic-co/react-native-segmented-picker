@@ -727,6 +727,7 @@ export default class SegmentedPicker extends Component<Props, State> {
                       pickerItemTextColor,
                     }}
                   />
+                  {extentionComponent && extentionComponent}
                 </View>
               )}
 
@@ -795,9 +796,9 @@ export default class SegmentedPicker extends Component<Props, State> {
                       ),
                     )}
                   </View>
+                  {extentionComponent && extentionComponent}
                 </>
               )}
-              {extentionComponent && extentionComponent}
             </View>
           </Animatable.View>
         </Animatable.View>
