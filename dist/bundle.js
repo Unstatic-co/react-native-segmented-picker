@@ -1145,7 +1145,7 @@ class SegmentedPicker extends Component {
         onConfirm: this.onConfirm,
         onCancel: this.onCancel,
         title: title
-      }), extentionComponent && extentionComponent,
+      }),
       /*#__PURE__*/
       React.createElement(View, {
         style: styles.selectableArea
@@ -1169,7 +1169,7 @@ class SegmentedPicker extends Component {
           selectionBorderColor,
           pickerItemTextColor
         }
-      }), extentionComponent && extentionComponent), !this.isNative() &&
+      })), !this.isNative() &&
       /*#__PURE__*/
       React.createElement(React.Fragment, null,
       /*#__PURE__*/
@@ -1236,7 +1236,7 @@ class SegmentedPicker extends Component {
           android: undefined
         }),
         testID: `${columnTestID}`
-      }))))), extentionComponent && extentionComponent)))))
+      }))))))), extentionComponent && extentionComponent)))
     );
   }
 

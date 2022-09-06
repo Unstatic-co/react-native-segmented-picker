@@ -707,7 +707,6 @@ export default class SegmentedPicker extends Component<Props, State> {
               onCancel={this.onCancel}
               title={title}
             />
-            {extentionComponent && extentionComponent}
             <View style={styles.selectableArea}>
               {/* Native iOS Picker is enabled */}
               {this.isNative() && (
@@ -727,7 +726,6 @@ export default class SegmentedPicker extends Component<Props, State> {
                       pickerItemTextColor,
                     }}
                   />
-                  {extentionComponent && extentionComponent}
                 </View>
               )}
 
@@ -796,10 +794,10 @@ export default class SegmentedPicker extends Component<Props, State> {
                       ),
                     )}
                   </View>
-                  {extentionComponent && extentionComponent}
                 </>
               )}
             </View>
+            {extentionComponent && extentionComponent}
           </Animatable.View>
         </Animatable.View>
       </Modal>
