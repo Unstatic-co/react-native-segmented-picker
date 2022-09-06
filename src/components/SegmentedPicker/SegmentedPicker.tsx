@@ -69,6 +69,7 @@ export interface Props {
   cancelText: string;
   title: string;
   toolbarContainerStyle: ViewStyle;
+  pickerContainerStyle: ViewStyle;
   // Events
   onValueChange: (event: SelectionEvent) => void;
   onCancel: (event: Selections) => void;
@@ -644,6 +645,7 @@ export default class SegmentedPicker extends Component<Props, State> {
       cancelText,
       title,
       toolbarContainerStyle,
+      pickerContainerStyle,
     } = this.props;
 
     return (
@@ -687,6 +689,7 @@ export default class SegmentedPicker extends Component<Props, State> {
             style={[
               styles.pickerContainer,
               { height: `${size * 100}%`, backgroundColor },
+              pickerContainerStyle,
             ]}>
             <Toolbar
               confirmText={confirmText}

@@ -25,6 +25,7 @@ const defaultProps = {
   textCancelStyle: {},
   textTitleStyle: {},
   toolbarContainerStyle: {},
+  pickerContainerStyle: {},
   cancelText: '',
   title: ''
 };
@@ -67,6 +68,7 @@ const propTypes = {
   cancelText: PropTypes.string,
   title: PropTypes.string,
   toolbarContainerStyle: PropTypes.object,
+  pickerContainerStyle: PropTypes.object,
   // Events
   onValueChange: PropTypes.func,
   onCancel: PropTypes.func,
@@ -1071,7 +1073,8 @@ class SegmentedPicker extends Component {
       textTitleStyle,
       cancelText,
       title,
-      toolbarContainerStyle
+      toolbarContainerStyle,
+      pickerContainerStyle
     } = this.props;
     return (
       /*#__PURE__*/
@@ -1125,7 +1128,7 @@ class SegmentedPicker extends Component {
         style: [styles.pickerContainer, {
           height: `${size * 100}%`,
           backgroundColor
-        }]
+        }, pickerContainerStyle]
       },
       /*#__PURE__*/
       React.createElement(Toolbar, {
